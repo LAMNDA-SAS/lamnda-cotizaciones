@@ -24,11 +24,21 @@ function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(icon
 document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML=svg(el.dataset.icon); });
 
 const DATA = {
-  co: {scope:'Empresa A', primary:DEMO_NAS_KIT, secondary:DEMO_NAS_KIT, usbPair:2*EQUIPMENT_CATALOG.usb.unit, power:36*650, networkMin:DEMO_NETWORK_TOTAL, networkMax:DEMO_NETWORK_TOTAL},
-  sv: {scope:'Empresa B', primary:1900000, secondary:1700000, usbPair:460000, power:25200, networkMin:500000, networkMax:650000}
+  co: {scope:'Quimel', primary:DEMO_NAS_KIT, secondary:DEMO_NAS_KIT, usbPair:2*EQUIPMENT_CATALOG.usb.unit, power:36*650, networkMin:DEMO_NETWORK_TOTAL, networkMax:DEMO_NETWORK_TOTAL},
+  sv: {scope:'Sautec', primary:1900000, secondary:1700000, usbPair:460000, power:25200, networkMin:500000, networkMax:650000}
 };
-const RATE = 42000;
-const TAX = 1.15; // Impuesto ilustrativo
+const RATE = 40000;
+const TAX = 1.19; // IVA 19 %
+// Valores finales a cobrar al cliente (neto sin IVA; el total mostrado lleva IVA del 19 %).
+const FINAL_PRICES = {
+  m365: {net:1800000, total:2142000},
+  single: {net:1904000, total:2265760},
+  physical: {net:2100000, total:2499000},
+  phased: {net:2220000, total:2641800},
+  cloud: {net:1740000, total:2070600},
+  upgradePhysical: {net:300000, total:357000},
+  upgradeCloud: {net:600000, total:714000}
+};
 const CLOUD = {server:62000, storage:15000};
 const HOURS = {
   upgradePhysical: [
@@ -66,10 +76,14 @@ const HOURS = {
     ['Revisar el NAS principal y actualizar la entrega',1]
   ],
   m365: [
-    ['Revisar cuentas y activar verificación en dos pasos',2],
-    ['Organizar carpetas y permisos',3],
-    ['Migrar archivos de trabajo desde Google Drive',3],
-    ['Capacitar a los empleados',1]
+    ['Inventariar usuarios, direcciones, archivos y permisos',3],
+    ['Configurar Microsoft 365, dominio, cuentas y verificación en dos pasos',4],
+    ['Migrar Google Drive a OneDrive y las carpetas de equipo a SharePoint',5],
+    ['Probar la migración de correo con un buzón piloto',3],
+    ['Migrar correo e historial de los buzones acordados y configurar alias o listas',6],
+    ['Cambiar el enrutamiento, configurar la autenticación del correo y verificar envíos',3],
+    ['Capacitar a los usuarios y entregar manuales',3],
+    ['Capacitar a administradores en permisos, uso compartido y entrega',3]
   ],
   security: [
     ['Configurar controles para memorias USB',6],
@@ -137,33 +151,32 @@ function renderBackup() {
     const header = label ? quoteLine(label,hours(hourTotal(group)*count),'Mano de obra · '+cop(laborPrice(hourTotal(group)*count))) : '';
     return '<div class="labor-group">' + header + taskRows(group,count) + '</div>';
   }).join('') + (key === 'phased' ? '<p class="phase-note">Por empresa, 1,5 h adicionales en este ejemplo: 0,5 h para la copia inicial en USB y 1 h para revisar el montaje al añadir el segundo NAS.</p>' : '');
-  byId('backup-labor-label').innerHTML = (model === 'hybrid' ? 'Pago único de la ampliación' : 'Pago único de mano de obra') + '<small>Impuesto de ejemplo incluido</small>';
-  byId('backup-labor-price').textContent = cop(laborPrice(totalHours));
+  byId('backup-labor-label').innerHTML = (model === 'hybrid' ? 'Pago único de la ampliación' : 'Pago único de mano de obra') + '<small>IVA del 19 % incluido</small>';
+  byId('backup-labor-price').textContent = cop(FINAL_PRICES[key].total);
 
-  const equipment = plan.gear.reduce((sum, item) => sum + sumEquipment(item), 0);
   const hardwareLabel = plan.gear.length ? 'Equipos · compra aparte' : 'Equipos nuevos';
   const equipmentRows = plan.gear.map(item => {
     const stage = key === 'phased' ? (item === 'secondary' ? 'Fase 2 · ' : 'Fase 1 · ') : '';
-    return quoteLine(stage + EQUIPMENT[item],cop(sumEquipment(item)));
+    return quoteLine(stage + EQUIPMENT[item],'—');
   }).join('');
   const equipmentNote = plan.gear.length
-    ? 'Importes ficticios de equipos de ejemplo, antes de la reserva de importación.'
+    ? 'Importes de los equipos por confirmar; el detalle figura en la ficha de compra.'
     : key === 'upgradePhysical' ? 'Se reutilizan los NAS instalados.' : 'El servicio principal funciona en la nube.';
   let equipmentLink = '';
   if (plan.gear.length && company !== 'sv') {
     const returnId = document.querySelector('[data-plan="' + key + '"]').id;
     const companyQuery = company === 'both' ? '&amp;empresa=both' : '';
-    equipmentLink = ' + precio de entrega según el vendedor y la dirección. La reserva sugerida de importación figura en la ficha de compra.' +
-      ' <a href="equipos/?desde=' + returnId + companyQuery + '#almacenamiento-4tb">Ver kit de dos NAS de Empresa A →</a>';
+    equipmentLink = ' + precio de entrega según el vendedor y la dirección.' +
+      ' <a href="equipos/?desde=' + returnId + companyQuery + '#almacenamiento-4tb">Ver kit de dos NAS de Quimel →</a>';
   }
   const phaseTotals = key === 'phased'
-    ? quoteLine('Fase 1 · Instalación y equipos',cop(laborPrice(hourTotal('single')*count)+sumEquipment('primary')+sumEquipment('usbPair'))) +
-      quoteLine('Fase 2 · Ampliación y equipos',cop(laborPrice(hourTotal('phaseTwo')*count)+sumEquipment('secondary'))) : '';
+    ? quoteLine('Fase 1 · Instalación y equipos',cop(FINAL_PRICES.single.total)) +
+      quoteLine('Fase 2 · Ampliación y equipos',cop(FINAL_PRICES.phased.total-FINAL_PRICES.single.total)) : '';
   byId('backup-equipment').innerHTML = '<div class="quote-box standalone-line">' +
-    quoteLine(hardwareLabel,cop(equipment)) + equipmentRows +
+    quoteLine(hardwareLabel,'—') + equipmentRows +
     '<p class="equipment-note">'+equipmentNote+equipmentLink+'</p></div>' +
-    '<div class="quote-box standalone-line">'+phaseTotals+
-    quoteLine(key === 'phased' ? 'Inversión total de las dos fases' : model === 'hybrid' ? 'Inversión estimada para ampliar' : 'Inversión inicial estimada',cop(laborPrice(totalHours)+equipment),'Mano de obra y equipos, según la opción elegida')+'</div>';
+    (plan.gear.length ? '' : '<div class="quote-box standalone-line">'+
+    quoteLine(key === 'phased' ? 'Inversión total de las dos fases' : model === 'hybrid' ? 'Inversión estimada para ampliar' : 'Inversión inicial estimada',cop(FINAL_PRICES[key].total),'Mano de obra y equipos, según la opción elegida')+'</div>');
 
   const energy = plan.energy ? sumEquipment('power')*plan.energy : 0;
   const operating = energy + (plan.cloudMain ? (CLOUD.server+CLOUD.storage)*count : 0) + (plan.cloudCopy ? CLOUD.storage*count : 0);
@@ -198,19 +211,16 @@ function renderBackup() {
 
 function render() {
   const count = selectedCompanies().length;
-  const scope = company === 'both' ? 'Empresa A + Empresa B · dos empresas' : DATA[company].scope;
+  const scope = company === 'both' ? 'Quimel + Sautec · dos empresas' : DATA[company].scope;
   document.querySelectorAll('.scope-label').forEach(el => {el.textContent=scope;});
   document.querySelectorAll('[data-company]').forEach(button => {
     const active=button.dataset.company===company;
     button.classList.toggle('active',active);
     button.setAttribute('aria-pressed',String(active));
   });
-  const networkMin = sumEquipment('networkMin');
-  const networkMax = sumEquipment('networkMax');
   const prices = {
-    'm365-install':cop(laborPrice(hourTotal('m365'))),
-    'security-install':cop(laborPrice(hourTotal('security')*count)),
-    'network-range':networkMin === networkMax ? cop(networkMin) : cop(networkMin)+' – '+cop(networkMax)
+    'm365-install':cop(FINAL_PRICES.m365.total),
+    'm365-net':cop(FINAL_PRICES.m365.net)
   };
   document.querySelectorAll('[data-price]').forEach(el => {el.textContent=prices[el.dataset.price];});
   document.querySelectorAll('[data-hours]').forEach(el => {
@@ -221,10 +231,6 @@ function render() {
     const key=el.dataset.totalHours;
     el.textContent=hours(hourTotal(key)*(key === 'm365' ? 1 : count))+' estimadas';
   });
-  const networkLink = byId('equipment-network-link');
-  networkLink.hidden = company === 'sv';
-  networkLink.querySelector('a').href = 'equipos/?desde=trabajo-seguridad' +
-    (company === 'both' ? '&empresa=both' : '') + '#red';
   renderBackup();
   byId('price-announcement').textContent='Valores actualizados para '+scope+'.';
 }
@@ -251,7 +257,7 @@ window.addEventListener('afterprint',()=>{printDetails.forEach(el=>{el.open=fals
 render();
 
 const QUOTATIONS = {
- '365':{id:'trabajo-365',title:'Microsoft 365 · Empresa A',kicker:'TRABAJO 1 · COTIZACIÓN DE EJEMPLO'},
+ '365':{id:'trabajo-365',title:'Microsoft 365 · Quimel',kicker:'TRABAJO 1 · COTIZACIÓN DE EJEMPLO'},
  copias:{id:'trabajo-copias',title:'Información sensible y copias de administradores',kicker:'TRABAJO 2 · FÍSICO, NUBE O HÍBRIDO'},
  seguridad:{id:'trabajo-seguridad',title:'Seguridad de equipos y Wi-Fi',kicker:'TRABAJO 3 · COTIZACIÓN DE EJEMPLO'}
 };
@@ -260,7 +266,7 @@ function showQuotation(key){
  document.querySelectorAll('[data-quote]').forEach(section=>{section.hidden=section.dataset.quote!==key;});
  document.getElementById('inicio').hidden=!!chosen;
  document.getElementById('project-scope').hidden=!chosen||key==='365';
- document.getElementById('footer-scope').textContent=key==='365'?'Empresa A':'Empresa A / Empresa B';
+  document.getElementById('footer-scope').textContent=key==='365'?'Quimel':'Quimel / Sautec';
  document.getElementById('selected-quote-bar').hidden=!chosen;
  document.getElementById('quote-closing').hidden=!chosen;
  document.querySelectorAll('.nav-row nav a').forEach(link=>{
