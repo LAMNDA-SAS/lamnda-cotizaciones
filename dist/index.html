@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#153e5b">
+  <title>Lamnda · Un plan claro para proteger su información</title>
+  <meta name="description" content="Tres trabajos separados para Empresa A y Empresa B: Microsoft 365, información sensible y copias para administradores, y seguridad de equipos y Wi-Fi.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23153e5b'/%3E%3Ctext x='11' y='30' font-size='30' font-family='serif' fill='white'%3Eλ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="equipos/catalogo.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#contenido">Ir al contenido</a>
+<header class="site-header">
+  <div class="container nav-row">
+    <a class="brand" href="#inicio" aria-label="Lamnda, inicio"><span class="brand-mark" aria-hidden="true">λ</span><span>lamnda<span class="brand-dot">.</span></span></a>
+    <nav aria-label="Las tres cotizaciones"><a href="#trabajo-365">1 · Microsoft 365</a><a href="#trabajo-copias">2 · Copias de administradores</a><a href="#trabajo-seguridad">3 · Equipos y Wi-Fi</a></nav>
+    <a class="nav-cta" href="#inicio">Elegir cotización <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+<main id="contenido">
+
+<section class="proposal-intro container" id="inicio">
+  <div class="eyebrow">Empresa A + Empresa B · Demostración con datos ficticios</div>
+  <h1 tabindex="-1">Elija una cotización</h1>
+  <p class="proposal-lead">Tres trabajos independientes para su empresa.</p>
+  <div class="proposal-jobs">
+    <a class="job-link job-one" href="#trabajo-365">
+      <span class="job-card-top"><b>01</b><i data-icon="grid"></i></span>
+      <h2>Microsoft 365</h2><span class="job-subtitle">Solo Empresa A</span>
+      <p>Cuentas, archivos de trabajo y capacitación.</p><strong class="job-action">Ver cotización →</strong>
+    </a>
+    <a class="job-link job-two" href="#trabajo-copias">
+      <span class="job-card-top"><b>02</b><i data-icon="cloud"></i></span>
+      <h2>Copias de seguridad</h2><span class="job-subtitle">Para administradores</span>
+      <p>Protección de archivos sensibles. Modelos físico, nube e híbrido.</p><strong class="job-action">Ver cotización →</strong>
+    </a>
+    <a class="job-link job-three" href="#trabajo-seguridad">
+      <span class="job-card-top"><b>03</b><i data-icon="shield"></i></span>
+      <h2>Seguridad de equipos y Wi-Fi</h2><span class="job-subtitle">Computadores y red</span>
+      <p>Control de USB, permisos y redes separadas para oficina e invitados.</p><strong class="job-action">Ver cotización →</strong>
+    </a>
+  </div>
+  <a class="equipment-entry" href="equipos/">
+    <span>
+      <strong>Cotización de equipos · Empresa A</strong>
+      <small>Compra: NAS, discos, UPS y equipos de red y Wi-Fi.</small>
+    </span>
+    <b>Ver equipos →</b>
+  </a>
+</section>
+<div class="selected-quote-bar container" id="selected-quote-bar" hidden>
+  <a id="back-to-quotes" href="#inicio">← Volver a las cotizaciones</a>
+</div>
+<section class="project-scope container" id="project-scope" aria-label="Empresa para los importes de esta cotización" hidden>
+  <div><span class="control-label">IMPORTES DE LA COTIZACIÓN SELECCIONADA</span><div class="company-switch" role="group" aria-label="Empresa para los importes"><button class="active" data-company="co" aria-pressed="true">Empresa A <span>A</span></button><button data-company="sv" aria-pressed="false">Empresa B <span>B</span></button><button data-company="both" aria-pressed="false">Ambas empresas</button></div></div>
+  <p><strong class="scope-label">Empresa A · una empresa</strong><span>Moneda indicada en cada valor · empresas y datos independientes.</span></p>
+</section>
+<section class="container quote-view" id="trabajo-365" data-quote="365" hidden>
+  <header class="quote-heading">
+    <span class="eyebrow">Cotización 1 · Solo Empresa A</span>
+    <h1 tabindex="-1">Microsoft 365</h1>
+    <p>Organizar el trabajo diario de un equipo pequeño.</p>
+  </header>
+  <article class="quote-box" id="presupuesto-365">
+    <details class="labor" id="tareas-365">
+      <summary><span>Mano de obra</span><strong data-total-hours="m365"></strong></summary>
+      <div class="labor-rows" data-hours="m365"></div>
+    </details>
+    <div class="quote-line quote-total">
+      <span>Pago único de referencia <small>Impuesto de ejemplo incluido</small></span><strong data-price="m365-install"></strong>
+    </div>
+  </article>
+  <p class="quote-note">Licencias aparte. La migración de correo se confirma por separado.</p>
+  <section class="quote-secondary" id="condiciones-365">
+    <h2 id="entrega-365">Alcance y condiciones</h2>
+    <p>Se trasladan los archivos de trabajo acordados. Antes de empezar se confirman licencias, cuentas, permisos y volumen de archivos. Los archivos sensibles de los administradores tienen <a href="#trabajo-copias">su propia cotización</a>.</p>
+    <p>Las condiciones de pago se acuerdan al emitir una cotización real.</p>
+  </section>
+</section>
+
+<section class="container quote-view" id="trabajo-copias" data-quote="copias" hidden>
+  <header class="quote-heading">
+    <span class="eyebrow">Cotización 2 · Para administradores</span>
+    <h1 tabindex="-1">Copias de seguridad</h1>
+    <p>Protección de archivos sensibles para hasta tres administradores por empresa. Referencia de uso inicial de 1 TB por empresa.</p>
+  </header>
+  <div id="modelos" class="choice-group">
+    <p id="model-label">Modelo de respaldo</p>
+    <div class="quote-options primary-options" role="group" aria-labelledby="model-label">
+      <button type="button" data-model="physical" aria-controls="backup-budget" aria-pressed="false">Físico</button>
+      <button type="button" data-model="cloud" aria-controls="backup-budget" aria-pressed="false">Nube</button>
+      <button type="button" data-model="hybrid" aria-controls="backup-budget" aria-pressed="false">Híbrido</button>
+    </div>
+  </div>
+  <div class="choice-group" id="physical-choices" hidden>
+    <p id="physical-label">¿Cómo quiere instalar los NAS?</p>
+    <div class="quote-options" role="group" aria-labelledby="physical-label">
+      <button type="button" id="fisico-1-nas" data-plan="single" aria-controls="backup-budget" aria-pressed="false">Solo 1 NAS<small>18,5 h por empresa</small></button>
+      <button type="button" id="fisico-2-nas" data-plan="physical" aria-controls="backup-budget" aria-pressed="false">2 NAS juntos<small>24 h por empresa</small></button>
+      <button type="button" id="fisico-por-fases" data-plan="phased" aria-controls="backup-budget" aria-pressed="false">Por fases<small>25,5 h estimadas por empresa</small></button>
+    </div>
+  </div>
+  <div class="choice-group" id="hybrid-choices" hidden>
+    <p id="ampliacion">¿Desde qué modelo quiere ampliar?</p>
+    <div class="quote-options" role="group" aria-labelledby="ampliacion">
+      <button type="button" id="fisico-a-hibrido" data-plan="upgradePhysical" aria-controls="backup-budget" aria-pressed="false">Desde físico</button>
+      <button type="button" id="nube-a-hibrido" data-plan="upgradeCloud" aria-controls="backup-budget" aria-pressed="false">Desde nube</button>
+    </div>
+  </div>
+  <article id="backup-budget" aria-labelledby="backup-title" hidden>
+    <header class="backup-heading">
+      <h2 id="backup-title"></h2><p id="backup-description"></p>
+    </header>
+    <div id="desglose-instalacion" class="quote-box">
+      <details class="labor" id="backup-labor">
+        <summary><span>Mano de obra</span><strong id="backup-hours"></strong></summary>
+        <div class="labor-rows" id="backup-tasks"></div>
+      </details>
+      <div id="inversion" class="quote-line quote-total">
+        <span id="backup-labor-label"></span><strong id="backup-labor-price"></strong>
+      </div>
+    </div>
+    <div id="backup-equipment"></div>
+    <section id="mensualidad" class="quote-box monthly-box" aria-labelledby="monthly-title">
+      <h3 id="monthly-title">Gastos mensuales estimados</h3>
+      <div id="backup-monthly"></div>
+    </section>
+    <p class="quote-note" id="consumo-nube"></p>
+    <p class="quote-note" id="backup-prerequisite" hidden></p>
+  </article>
+  <p id="model-prompt" class="model-prompt">Seleccione un modelo para ver su alcance y su presupuesto.</p>
+  <section class="quote-secondary" id="alcance">
+    <h2 id="base">Qué comparten los modelos</h2>
+    <p>La primera instalación incluye cuentas, permisos, acceso privado, migración, capacitación, manual y pruebas de recuperación. Cada empresa mantiene su propio sistema.</p>
+    <p>La tarifa y el impuesto se configuran en el sitio. Los equipos se compran aparte.</p>
+    <p>Se acuerdan los días de historial, los responsables de las copias y los tiempos de recuperación antes de la entrega.</p>
+  </section>
+  <section class="quote-secondary" id="plan-administradores" hidden>
+    <h2 id="ruta">Recomendación de Lamnda</h2>
+    <p>Si prefiere empezar sin comprar equipos, puede instalar Nube primero y añadir después los NAS de respaldo. Usted elige el modelo y cuándo ampliarlo.</p>
+  </section>
+</section>
+
+<section class="container quote-view" id="trabajo-seguridad" data-quote="seguridad" hidden>
+  <header class="quote-heading">
+    <span class="eyebrow">Cotización 3 · <span class="scope-label">Empresa A · una empresa</span></span>
+    <h1 tabindex="-1">Seguridad de equipos y Wi-Fi</h1>
+    <p>Controles para unos 15 computadores por empresa y redes separadas para oficina e invitados.</p>
+  </header>
+  <article class="quote-box" id="seguridad-presupuesto">
+    <details class="labor" id="seguridad-horas">
+      <summary><span>Mano de obra</span><strong data-total-hours="security"></strong></summary>
+      <div class="labor-rows" id="seguridad-alcance" data-hours="security"></div>
+    </details>
+    <div class="quote-line quote-total">
+      <span>Pago único de referencia <small>Impuesto de ejemplo incluido</small></span><strong data-price="security-install"></strong>
+    </div>
+  </article>
+  <div class="quote-box standalone-line">
+    <div class="quote-line">
+      <span>Equipos de red <small>Compra aparte</small></span><strong data-price="network-range"></strong>
+    </div>
+    <p class="equipment-note" id="equipment-network-link"><a href="equipos/?desde=trabajo-seguridad#red">Ver equipos de red de Empresa A →</a> · + precio de entrega según la dirección.</p>
+  </div>
+  <section class="quote-secondary" id="condiciones-seguridad">
+    <h2>Alcance y condiciones</h2>
+    <p>Se acuerdan las excepciones de USB y se prueba la política de aplicaciones compatible con las versiones de Windows. La compra del router, punto de acceso, alimentación PoE, materiales y licencias que se necesiten corresponde al cliente.</p>
+    <p>Las condiciones de pago se acuerdan al emitir una cotización real.</p>
+  </section>
+</section>
+
+<section class="closing-section" id="quote-closing" hidden><div class="container closing-content"><div><span class="eyebrow">ALCANCE Y PRESUPUESTO INDEPENDIENTES</span><h2 id="selected-closing-title">Esta es su cotización.</h2><p>Puede guardar el resumen de este trabajo o volver al selector para consultar otra cotización.</p></div><div class="closing-actions"><a class="button light" href="#inicio">Elegir otra cotización <span>↗</span></a><button class="button outline-light" id="print-button"><span data-icon="download"></span> Guardar como PDF</button></div></div></section>
+</main>
+
+<footer class="site-footer container"><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">λ</span><span>lamnda<span class="brand-dot">.</span></span></a><p><span id="footer-scope">Empresa A &nbsp; / &nbsp; Empresa B</span><br><span>Demostración con importes ficticios</span></p><a href="#inicio">Elegir cotización <span aria-hidden="true">↗</span></a></footer>
+<div class="sr-only" aria-live="polite" id="price-announcement"></div>
+</body>
+</html>
