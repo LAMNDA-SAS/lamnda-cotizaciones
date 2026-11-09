@@ -29,6 +29,7 @@ const DATA = {
 };
 const RATE = 40000;
 const TAX = 1.19; // IVA 19 %
+const MAINTENANCE_MARKUP = 2; // Doubled optional maintenance value per quote policy
 // Valores finales a cobrar al cliente (neto sin IVA; el total mostrado lleva IVA del 19 %).
 const FINAL_PRICES = {
   m365: {net:1800000, total:2142000},
@@ -180,7 +181,7 @@ function renderBackup() {
 
   const energy = plan.energy ? sumEquipment('power')*plan.energy : 0;
   const operating = energy + (plan.cloudMain ? (CLOUD.server+CLOUD.storage)*count : 0) + (plan.cloudCopy ? CLOUD.storage*count : 0);
-  const maintenance = laborPrice(plan.maintenance*count);
+  const maintenance = laborPrice(plan.maintenance*count)*MAINTENANCE_MARKUP;
   const energyRows = key === 'phased'
     ? quoteLine('Fase 1 · Energía estimada',cop(energy/2)+'/mes','18 kWh por empresa') +
       quoteLine('Fase 2 · Energía estimada',cop(energy)+'/mes','36 kWh por empresa')
